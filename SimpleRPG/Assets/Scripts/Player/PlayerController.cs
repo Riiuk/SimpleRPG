@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     public float hitRange = 100f;
     [Tooltip("Variable para almacenar la 'LayerMask' por la cual puede moverse el jugador")]
     public LayerMask movementMask;
-
+    [Tooltip("Variable que almacena el efecto de particulas para cuando hacemos click de movimiento")]
+    public GameObject hitEffect;
     Camera cam;     // Variable para almacenar la cámara
     PlayerMotor motor;  // variable que almacena el componente PlayerMotor para poder usarlo
     
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
                 // Llamamos a la función que se encarga del movimiento
                 // pasandole como Vector3 de dirección el punto donde estamos clicando del mundo
                 motor.MoveToPoint(hit.point);
-
+                StartCoroutine(HitEffect(hit.point));
                 // Parar de focusear cualquier objeto 
             }
         }
@@ -64,5 +65,12 @@ public class PlayerController : MonoBehaviour
                 // Si lo hemos hecho, este será nuestro focus
             }
         }
+    }
+
+    IEnumerator HitEffect(Vector3 hit)
+    {
+        GameObject effect = Instantiate(hitEffect, hit, Quaternion.identity);
+        yield return new WaitForSeconds(1f);
+        Destroy(effect);
     }
 }
