@@ -70,11 +70,16 @@ public class PlayerMotor : MonoBehaviour
         target = null;
     }
 
+    /// <summary>
+    /// Función que llamamos en el update cuando tenemos un target para mirar hacia el
+    /// </summary>
     void FaceTarget()
     {
+        // Declaramos un Vector3 con la direccion hacia el objetivo normalizada
         Vector3 direcction = (target.position - transform.position).normalized;
+        // Declaramos los grados necesarios para rotarnos hacia la posicion del target
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direcction.x, 0f, direcction.z));
+        // Rotamos el player de forma suavizada hacia el target a una velocidad declarada
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationInteractableSpeed);
     }
-
 }
